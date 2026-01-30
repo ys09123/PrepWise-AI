@@ -1,18 +1,18 @@
 import { supabase } from '../lib/supabase';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export const api = {
   async _handleResponse(response) {
-    // 1. Handle 204 No Content (Common for DELETE)
+    // Handle 204 No Content
     if (response.status === 204) {
-      return null;
+      return { success: true };
     }
 
-    // 2. Parse JSON
+    // Parse JSON
     const data = await response.json().catch(() => null);
 
-    // 3. Handle Errors 
+    // Handle Errors 
     if (!response.ok) {
       throw new Error(data?.error || data?.message || `Request failed: ${response.statusText}`);
     }
@@ -48,19 +48,26 @@ export const api = {
 
   async getResumes() {
     const token = await this.getToken();
+    
+    console.log('Fetching resumes from:', `${API_URL}/resumes`);
+    
     const response = await fetch(`${API_URL}/resumes`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
 
-    return this._handleResponse(response);
+    const data = await this._handleResponse(response);
+    console.log('Resumes response:', data);
+    
+    return data;
   },
 
   async getResume(id) {
     if (!id) throw new Error('Resume ID is required'); 
 
     const token = await this.getToken();
+    
     const response = await fetch(`${API_URL}/resumes/${id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -74,6 +81,7 @@ export const api = {
     if (!id) throw new Error('Resume ID is required');
 
     const token = await this.getToken();
+    
     const response = await fetch(`${API_URL}/resumes/${id}`, {
       method: 'DELETE',
       headers: {

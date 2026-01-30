@@ -15,8 +15,10 @@ const Dashboard = () => {
 
   const fetchResumes = async () => {
     try {
-      const { resumes } = await api.getResumes();
-      setResumes(resumes);
+      const data = await api.getResumes();
+      setResumes(data.resumes || data);
+      // const { resumes } = await api.getResumes();
+      // setResumes(resumes);
     } catch (error) {
       console.error("Failed to fetch resumes:", error);
     } finally {
@@ -112,13 +114,13 @@ const Dashboard = () => {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="flex-1">
                       <h3 className="font-semibold text-[#2f3e46] mb-1">
-                        {resume.parsed_data.name || resume.file_name}
+                        {resume.parsed_data?.name || resume.file_name}
                       </h3>
                       <p className="text-sm text-gray-600 mb-2">
                         {resume.file_name}
                       </p>
                       <div className="flex flex-wrap gap-2">
-                        {resume.parsed_data.skills
+                        {resume.parsed_data?.skills
                           ?.slice(0, 3)
                           .map((skill, i) => (
                             <span

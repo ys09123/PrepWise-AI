@@ -39,7 +39,7 @@ function App() {
               </PrivateRoute>
             } 
           />
-          <Route 
+          <Route
             path="/resume/:id" 
             element={
               <PrivateRoute>
@@ -48,6 +48,7 @@ function App() {
             } 
           />
           <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
