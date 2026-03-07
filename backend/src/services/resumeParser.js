@@ -1,10 +1,10 @@
 const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
 
-console.log('--- Debugging PDF-Parse ---');
-console.log('Type of pdfParse:', typeof pdfParse);
-console.log('Is pdfParse a function?:', typeof pdfParse === 'function');
-console.log('Available keys:', Object.keys(pdfParse));
+// console.log('--- Debugging PDF-Parse ---');
+// console.log('Type of pdfParse:', typeof pdfParse);
+// console.log('Is pdfParse a function?:', typeof pdfParse === 'function');
+// console.log('Available keys:', Object.keys(pdfParse));
 
 class ResumeParser {
     // Extract raw text from uploaded file buffer based on extension

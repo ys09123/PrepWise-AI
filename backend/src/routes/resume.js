@@ -64,7 +64,7 @@ router.post(
         return res.status(400).json({ error: "No file uploaded" });
       }
 
-      console.log("Processing resume:", req.file.originalname);
+      // console.log("Processing resume:", req.file.originalname);
 
       const rawText = await resumeParser.extractText(req.file);
       const parsedData = resumeParser.simpleParser(rawText);
@@ -85,7 +85,7 @@ router.post(
         throw error;
       }
 
-      console.log("Resume saved successfully:", resume.id);
+      // console.log("Resume saved successfully:", resume.id);
 
       // Consistent response format
       res.json({ 
@@ -109,7 +109,7 @@ router.post(
 // GET: all resumes for current user
 router.get("/", authenticateUser, async (req, res) => {
   try {
-    console.log("Fetching resumes for user:", req.user.id);
+    // console.log("Fetching resumes for user:", req.user.id);
 
     const { data: resumes, error } = await supabase
       .from("resumes")
@@ -122,7 +122,7 @@ router.get("/", authenticateUser, async (req, res) => {
       throw error;
     }
 
-    console.log(`Found ${resumes?.length || 0} resumes`);
+    // console.log(`Found ${resumes?.length || 0} resumes`);
 
     // Consistent response format
     res.json({ 
@@ -138,7 +138,7 @@ router.get("/", authenticateUser, async (req, res) => {
 // GET: single resume by ID
 router.get("/:id", authenticateUser, async (req, res) => {
   try {
-    console.log("Fetching resume:", req.params.id);
+    // console.log("Fetching resume:", req.params.id);
 
     const { data: resume, error } = await supabase
       .from("resumes")
@@ -152,7 +152,7 @@ router.get("/:id", authenticateUser, async (req, res) => {
       return res.status(404).json({ error: "Resume not found" });
     }
 
-    console.log("Resume found:", resume.id);
+    // console.log("Resume found:", resume.id);
 
     // Consistent response format
     res.json({ 
