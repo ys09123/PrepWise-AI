@@ -64,10 +64,10 @@ router.post(
         return res.status(400).json({ error: "No file uploaded" });
       }
 
-      // console.log("Processing resume:", req.file.originalname);
+      console.log("Processing resume:", req.file.originalname);
 
       const rawText = await resumeParser.extractText(req.file);
-      const parsedData = resumeParser.simpleParser(rawText);
+      const parsedData = await resumeParser.parseWithAI(rawText);
 
       const { data: resume, error } = await supabase
         .from("resumes")
@@ -85,7 +85,7 @@ router.post(
         throw error;
       }
 
-      // console.log("Resume saved successfully:", resume.id);
+      console.log("Resume saved successfully:", resume.id);
 
       // Consistent response format
       res.json({ 
