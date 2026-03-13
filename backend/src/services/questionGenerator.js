@@ -66,69 +66,69 @@ class QuestionGenerator {
 
     const prompt = `You are an expert technical interviewer. Generate personalized interview questions based on this candidate's resume.
 
-CANDIDATE PROFILE:
-- Skills: ${skillsList}
-- Seniority: ${seniorityLevel || "Unknown"} (${yearsOfExperience || "Unknown"} years experience)
-- Summary: ${summary || "Not provided"}
-
-WORK EXPERIENCE:
-${experienceText}
-
-PROJECTS:
-${projectsText}
-
-EDUCATION:
-${educationText}
-
-CERTIFICATIONS: ${certText}
-
-INTERVIEW CONFIGURATION:
-- Focus Area: ${focusArea}
-- Difficulty Level: ${difficulty}
-
-INSTRUCTIONS:
-Generate EXACTLY 8 interview questions following these rules:
-
-1. FOCUS AREA DISTRIBUTION:
-   - If "technical": 6 technical questions + 2 behavioral questions
-   - If "behavioral": 2 technical questions + 6 behavioral questions
-   - If "mixed": 4 technical + 2 behavioral + 2 project-based questions
-
-2. DIFFICULTY LEVELS:
-   - "easy": Foundational concepts, basic definitions, simple scenarios
-     Example: "Explain what REST API is and why it's useful"
-   - "medium": Applied knowledge, scenario-based problems, intermediate concepts
-     Example: "How would you optimize database queries in a high-traffic application?"
-   - "hard": System design, complex scenarios, deep technical knowledge, architecture decisions
-     Example: "Design a distributed caching system for a global e-commerce platform"
-
-3. PERSONALIZATION - THIS IS CRITICAL:
-   - Reference their ACTUAL job titles, companies, and projects by name
-   - Ask about SPECIFIC technologies they listed (not generic ones they didn't mention)
-   - For experience questions, reference their real responsibilities
-   - For project questions, reference their actual project names and tech stacks
-   
-   GOOD: "You mentioned building a microservices architecture at Tech Corp. Can you explain your API gateway design?"
-   BAD: "Tell me about microservices" (too generic)
-
-4. QUESTION REQUIREMENTS:
-   - All questions must be open-ended (no yes/no answers)
-   - Each question should require 2-4 minutes to answer properly
-   - For behavioral questions, guide toward STAR format (Situation, Task, Action, Result)
-   - Avoid questions about technologies they DON'T have on their resume
-
-5. CATEGORIES:
-   - "technical": About specific technologies, algorithms, system design, coding concepts, debugging
-   - "behavioral": About teamwork, leadership, conflict resolution, learning experiences, failures
-   - "project": Deep dive into their specific projects, architecture decisions, challenges, trade-offs
-
-6. EXPECTED KEYWORDS:
-   - List 3-5 keywords/concepts you'd expect in a strong answer
-   - These help evaluate answer quality later
-   - Be specific to the question topic
-
-RETURN EXACTLY 8 QUESTIONS as a JSON array with no additional text.`;
-
+    CANDIDATE PROFILE:
+    - Skills: ${skillsList}
+    - Seniority: ${seniorityLevel || "Unknown"} (${yearsOfExperience || "Unknown"} years experience)
+    - Summary: ${summary || "Not provided"}
+              
+    WORK EXPERIENCE:
+    ${experienceText}
+              
+    PROJECTS:
+    ${projectsText}
+              
+    EDUCATION:
+    ${educationText}
+              
+    CERTIFICATIONS: ${certText}
+              
+    INTERVIEW CONFIGURATION:
+    - Focus Area: ${focusArea}
+    - Difficulty Level: ${difficulty}
+              
+    INSTRUCTIONS:
+    Generate EXACTLY 8 interview questions following these rules:
+              
+    1. FOCUS AREA DISTRIBUTION:
+       - If "technical": 6 technical questions + 2 behavioral questions
+       - If "behavioral": 2 technical questions + 6 behavioral questions
+       - If "mixed": 4 technical + 2 behavioral + 2 project-based questions
+              
+    2. DIFFICULTY LEVELS:
+       - "easy": Foundational concepts, basic definitions, simple scenarios
+         Example: "Explain what REST API is and why it's useful"
+       - "medium": Applied knowledge, scenario-based problems, intermediate concepts
+         Example: "How would you optimize database queries in a high-traffic application?"
+       - "hard": System design, complex scenarios, deep technical knowledge, architecture decisions
+         Example: "Design a distributed caching system for a global e-commerce platform"
+              
+    3. PERSONALIZATION - THIS IS CRITICAL:
+       - Reference their ACTUAL job titles, companies, and projects by name
+       - Ask about SPECIFIC technologies they listed (not generic ones they didn't mention)
+       - For experience questions, reference their real responsibilities
+       - For project questions, reference their actual project names and tech stacks
+              
+       GOOD: "You mentioned building a microservices architecture at Tech Corp. Can you explain your API gateway design?"
+       BAD: "Tell me about microservices" (too generic)
+              
+    4. QUESTION REQUIREMENTS:
+       - All questions must be open-ended (no yes/no answers)
+       - Each question should require 2-4 minutes to answer properly
+       - For behavioral questions, guide toward STAR format (Situation, Task, Action, Result)
+       - Avoid questions about technologies they DON'T have on their resume
+              
+    5. CATEGORIES:
+       - "technical": About specific technologies, algorithms, system design, coding concepts, debugging
+       - "behavioral": About teamwork, leadership, conflict resolution, learning experiences, failures
+       - "project": Deep dive into their specific projects, architecture decisions, challenges, trade-offs
+              
+    6. EXPECTED KEYWORDS:
+       - List 3-5 keywords/concepts you'd expect in a strong answer
+       - These help evaluate answer quality later
+       - Be specific to the question topic
+              
+    RETURN EXACTLY 8 QUESTIONS as a JSON array with no additional text.`;
+              
     const outputDescription = `A JSON array with exactly 8 question objects. Each must have: id (number), category (string: technical/behavioral/project), question (string), followUp (string), expectedKeywords (array of strings), difficulty (string: easy/medium/hard)`;
 
     try {

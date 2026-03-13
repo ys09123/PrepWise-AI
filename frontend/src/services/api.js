@@ -90,5 +90,63 @@ export const api = {
     });
 
     return this._handleResponse(response);
+  },
+
+  // ─── INTERVIEW METHODS ───
+  async startInterview(resumeId, focusArea, difficulty) {
+    const token = await this.getToken();
+    const response = await fetch(`${API_URL}/interviews/start`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ resumeId, focusArea, difficulty })
+    });
+    return this._handleResponse(response);
+  },
+
+  async submitAnswer(sessionId, questionIndex, answer) {
+    const token = await this.getToken();
+    const response = await fetch(`${API_URL}/interviews/${sessionId}/answer`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ questionIndex, answer })
+    });
+    return this._handleResponse(response);
+  },
+
+  async completeInterview(sessionId) {
+    const token = await this.getToken();
+    const response = await fetch(`${API_URL}/interviews/${sessionId}/complete`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return this._handleResponse(response);
+  },
+
+  async getInterviewHistory() {
+    const token = await this.getToken();
+    const response = await fetch(`${API_URL}/interviews/history`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return this._handleResponse(response);
+  },
+
+  async getInterviewResults(sessionId) {
+    const token = await this.getToken();
+    const response = await fetch(`${API_URL}/interviews/${sessionId}/results`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return this._handleResponse(response);
   }
 };

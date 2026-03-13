@@ -5,6 +5,9 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import UploadResume from './pages/UploadResume';
 import ResumeView from './pages/ResumeView';
+import InterviewSetup from "./pages/InterviewSetup";
+import Interview from "./pages/Interview";
+import Results from "./pages/Results";
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -23,29 +26,54 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route 
-            path="/dashboard" 
+          <Route
+            path="/dashboard"
             element={
               <PrivateRoute>
                 <Dashboard />
               </PrivateRoute>
-            } 
+            }
           />
-          <Route 
-            path="/upload-resume" 
+          <Route
+            path="/upload-resume"
             element={
               <PrivateRoute>
                 <UploadResume />
               </PrivateRoute>
-            } 
+            }
           />
           <Route
-            path="/resume/:id" 
+            path="/resume/:id"
             element={
               <PrivateRoute>
                 <ResumeView />
               </PrivateRoute>
-            } 
+            }
+          />
+          <Route
+            path="/interview/start"
+            element={
+              <PrivateRoute>
+                <InterviewSetup />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/interview"
+            element={
+              <PrivateRoute>
+                <Interview />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/results"
+            element={
+              <PrivateRoute>
+                <Results />
+              </PrivateRoute>
+            }
           />
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />

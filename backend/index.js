@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const resumeRoutes = require('./src/routes/resume')
+const resumeRoutes = require('./src/routes/resume');
+const interviewRoutes = require('./src/routes/interview');
 
 const app = express();
 
@@ -17,7 +18,8 @@ app.use(cors({
 app.use(express.json());
 
 //routes
-app.use('/resumes', resumeRoutes)
+app.use('/resumes', resumeRoutes);
+app.use('/interviews', interviewRoutes);
 
 app.get('/', (req, res) => {
   res.json({ 
