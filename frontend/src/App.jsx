@@ -1,5 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -8,6 +12,7 @@ import ResumeView from './pages/ResumeView';
 import InterviewSetup from "./pages/InterviewSetup";
 import Interview from "./pages/Interview";
 import Results from "./pages/Results";
+import Review from "./pages/Review";
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -72,6 +77,15 @@ function App() {
             element={
               <PrivateRoute>
                 <Results />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/review"
+            element={
+              <PrivateRoute>
+                <Review />
               </PrivateRoute>
             }
           />
