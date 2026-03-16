@@ -74,7 +74,7 @@ function Register() {
             <button 
               type="submit" 
               disabled={loading}
-              className="w-full p-3 bg-[#84a98c] text-white font-bold rounded hover:bg-[#6b8e73] disabled:bg-[#dad7cd] transition-all shadow-md active:scale-95"
+              className="w-full p-2.5 bg-[#84a98c] text-white rounded font-medium hover:shadow-xl/30 disabled:bg-[#dad7cd] disabled:cursor-not-allowed transition-all active:scale-95"
             >
               {loading ? 'Creating account...' : 'REGISTER'}
             </button>

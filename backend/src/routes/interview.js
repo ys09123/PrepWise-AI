@@ -171,7 +171,7 @@ router.post("/:sessionId/answer", authenticateUser, async (req, res) => {
     const nextIndex = questionIndex + 1;
     const isLastQuestion = nextIndex >= session.questions.length;
 
-    const { erro: updateError } = await supabase
+    const { error: updateError } = await supabase
       .from("interview_sessions")
       .update({
         answers: answers,
