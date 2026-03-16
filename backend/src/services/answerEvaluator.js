@@ -1,4 +1,4 @@
-const { geminiService } = require("../services/geminiService");
+const geminiService = require("./geminiService");
 
 class AnswerEvaluator {
   /**
@@ -118,6 +118,7 @@ class AnswerEvaluator {
    */
   async evaluateAll(questions, answers, resumeData) {
     const evaluations = [];
+    const dimensionAverages = this.getDimensionsAverages(evaluations);
 
     console.log(`Starting evaluation of ${answers.length} answers...`);
 
@@ -155,7 +156,7 @@ class AnswerEvaluator {
 
     const overallScore = this.calculateOverallScore(evaluations);
 
-    return { evaluations, overallScore };
+    return { evaluations, overallScore, dimensionAverages };
   }
 
   /**
@@ -166,7 +167,7 @@ class AnswerEvaluator {
   calculateOverallScore(evaluations) {
     if (evaluations.length === 0) return 0;
 
-    const total = evaluation.reduce(
+    const total = evaluations.reduce(
       (sum, e) => sum + (e.evaluation?.scores?.overall || 0),
       0,
     );
@@ -198,6 +199,8 @@ class AnswerEvaluator {
         scores.reduce((a, b) => a + b, 0) / scores.length,
       );
     });
+
+    return averages;
   }
 }
 
