@@ -35,7 +35,7 @@ const Login = () => {
                 <p className="mb-8 opacity-90">Don't have an account??</p>
                 <Link 
                     to="/register" 
-                    className="px-8 py-2 border-2 border-white rounded-md hover:bg-white hover:text-[#84a98c] transition-colors font-semibold"
+                    className="px-10 py-2 border-2 border-white rounded-full hover:bg-white hover:text-[#84a98c] transition-all font-bold uppercase text-xs tracking-widest"
                 >
                     Register
                 </Link>

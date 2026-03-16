@@ -18,8 +18,8 @@ app.use(cors({
 app.use(express.json());
 
 //routes
-app.use('/resumes', resumeRoutes);
-app.use('/interviews', interviewRoutes);
+app.use('/api/resumes', resumeRoutes);
+app.use('/api/interviews', interviewRoutes);
 
 app.get('/', (req, res) => {
   res.json({ 
