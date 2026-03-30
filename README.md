@@ -97,5 +97,5 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 ---
 
 ## ⭐ Authors
-Yash Shaw
-Ankita
+Yash Shaw,
+Ankita Ghosh
