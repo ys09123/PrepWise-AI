@@ -8,6 +8,7 @@ const interviewRoutes = require('./src/routes/interview');
 const app = express();
 
 //middlewares
+app.options('*', cors());
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
