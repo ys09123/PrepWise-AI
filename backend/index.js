@@ -7,17 +7,14 @@ const interviewRoutes = require('./src/routes/interview');
 
 const app = express();
 
-//middlewares
-app.options('*', cors());
-app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://prep-wise-ai-sepia.vercel.app"
-  ],
+const corsOptions = {
+  origin: ["http://localhost:5173", "https://prep-wise-ai-sepia.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
@@ -29,7 +26,7 @@ app.get('/', (req, res) => {
   res.json({ 
     message: 'Interview Simulator API', 
     status: 'running',
-    version: '1.0.0'
+    version: '1.5'
   });
 });
 
