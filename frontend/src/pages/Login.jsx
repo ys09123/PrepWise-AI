@@ -29,62 +29,55 @@ const Login = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
-        <div className='flex flex-col md:flex-row w-full max-w-200 min-h-125 shadow-xl rounded-lg overflow-hidden'>
-            
-            <div className="w-full md:w-75 bg-[#84a98c] flex flex-col justify-center items-center p-8 text-center text-white">
-                <h1 className="text-3xl font-bold mb-4">Welcome Back!</h1>
-                <p className="mb-8 opacity-90">Don't have an account??</p>
-                <Link 
-                    to="/register" 
-                    className="px-8 py-2 border-2 border-white rounded-md hover:bg-white hover:text-[#84a98c] transition-colors font-semibold"
-                >
-                    Register
-                </Link>
-            </div>
-
-            <div className="w-full md:w-125 bg-white flex flex-col justify-center px-6 py-10 md:px-12">
-                <h2 className="text-5xl text-[#2f3e46] font-bold mb-4">Login</h2>
-                
-                {error && (
-                    <div className="text-red-500 mb-2.5">
-                        {error}
-                    </div>
-                )}
-
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-3.75">
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                            className="w-full p-2.5 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#84a98c]"
-                        />
-                    </div>
-
-                    <div className="mb-3.75">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="w-full p-2.5 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#84a98c]"
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full p-2.5 bg-[#84a98c] text-white rounded font-medium hover:shadow-xl/30 disabled:bg-[#dad7cd] disabled:cursor-not-allowed transition-all active:scale-95"
-                    >
-                        {loading ? 'Logging in...' : 'Login'}
-                    </button>
-                </form>
-            </div>
+    <div className="min-h-screen bg-[#F7F7F7] flex items-center justify-center p-4">
+      <div className="w-full max-w-sm bg-white border border-[#E5E5E5] rounded-xl p-8">
+        <div className="mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight text-[#111111]">Welcome back</h1>
+          <p className="text-sm text-[#999999] mt-1">Sign in to your account</p>
         </div>
+
+        {error && (
+          <p className="text-sm text-[#DC2626] mb-4">{error}</p>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-3 py-2 text-sm border border-[#E5E5E5] rounded-md bg-white placeholder:text-[#999999] focus:outline-none focus:border-[#18181B] transition-colors"
+            />
+          </div>
+
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 text-sm border border-[#E5E5E5] rounded-md bg-white placeholder:text-[#999999] focus:outline-none focus:border-[#18181B] transition-colors"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full px-4 py-2 bg-[#18181B] text-white text-sm font-medium rounded-md hover:bg-[#27272A] transition-colors disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]"
+          >
+            {loading ? 'Signing in...' : 'Sign in'}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center">
+          <Link to="/register" className="text-sm text-[#555555] hover:text-[#111111] transition-colors">
+            Don't have an account? Register →
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }

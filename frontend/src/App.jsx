@@ -1,9 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -12,13 +9,12 @@ import ResumeView from './pages/ResumeView';
 import InterviewSetup from "./pages/InterviewSetup";
 import Interview from "./pages/Interview";
 import Results from "./pages/Results";
-import Review from "./pages/Review";
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
   
-  if (loading) return <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#84a98c]"></div>
+  if (loading) return <div className="min-h-screen bg-white flex items-center justify-center py-16">
+    <div className="w-5 h-5 border-2 border-[#E5E5E5] border-t-[#18181B] rounded-full animate-spin" />
   </div>;
   
   return user ? children : <Navigate to="/login" />;
@@ -56,7 +52,7 @@ function App() {
             }
           />
           <Route
-            path="/interview/start"
+            path="/interview/setup"
             element={
               <PrivateRoute>
                 <InterviewSetup />
@@ -81,14 +77,6 @@ function App() {
             }
           />
 
-          <Route
-            path="/review"
-            element={
-              <PrivateRoute>
-                <Review />
-              </PrivateRoute>
-            }
-          />
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
