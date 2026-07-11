@@ -4,15 +4,15 @@ function cleanResumeText(text) {
   return text
     .replace(/[^\x20-\x7E\n]/g, " ")  // remove weird unicode
     .replace(/-\n/g, "")              // fix broken words
+    .replace(/[ \t]+/g, " ")          // collapse spaces/tabs but keep newlines
     .replace(/\n{2,}/g, "\n")         // normalize spacing
-    .replace(/\s+/g, " ")
     .trim();
 }
 
 class AIResumeParser {
   async parseWithAI(rawText) {
     const cleanedText = cleanResumeText(rawText);
-    const textToProcess = cleanedText.substring(0, 8000);
+    const textToProcess = cleanedText.substring(0, 10000); // Send more context if needed
 
     const prompt = `You are an expert resume parser. Extract structured information from this resume text.
 
@@ -89,7 +89,7 @@ Return ONLY valid JSON. No markdown, no code blocks, no explanations.`;
     try {
       console.log("🤖 Parsing resume with Gemini AI...");
 
-      const parsedData = await geminiService.generateJSON(
+      const parsedData = await geminiService.generateJSONWithRetry(
         prompt,
         outputDescription,
       );

@@ -32,7 +32,7 @@ const Interview = () => {
     return null;
   }
 
-  const progress = ((currentIndex + 1) / totalQuestions) * 100;
+  const progress = (currentIndex / totalQuestions) * 100;
 
   const categoryColors = {
     technical: "bg-blue-100 text-blue-700",

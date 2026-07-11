@@ -124,7 +124,8 @@ export const api = {
     const response = await fetch(`${API_URL}/interviews/${sessionId}/complete`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     });
     return this._handleResponse(response);

@@ -16,13 +16,15 @@ const Login = () => {
     setError('')
     setLoading(true)
 
-    const {error} = await signIn(email, password)
-
-    if(error){
+    try {
+      const {error} = await signIn(email, password)
+      if(error){
         setError(error.message)
-        setLoading(false)
-    }else {
+      } else {
         navigate('/dashboard')
+      }
+    } finally {
+      setLoading(false)
     }
   }
 

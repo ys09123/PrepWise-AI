@@ -1,4 +1,4 @@
-const { geminiService } = require("../services/geminiService");
+const geminiService = require("./geminiService");
 
 class AnswerEvaluator {
   /**
@@ -118,33 +118,33 @@ class AnswerEvaluator {
    */
   async evaluateAll(questions, answers, resumeData) {
     const evaluations = [];
-
-    console.log(`Starting evaluation of ${answers.length} answers...`);
-
-    for (let i = 0; i < answers.length; i++) {
+    
+    console.log(`Starting evaluation of ${questions.length} questions...`);
+    
+    for (let i = 0; i < questions.length; i++) {
       const question = questions[i];
       const answer = answers[i];
-
+      
       if (!answer || !answer.text || answer.text.trim().length === 0) {
         console.log(`Skipping answer ${i + 1} - no text provided`);
         continue;
       }
       try {
-        console.log(`Evaluating answer ${i + 1}/${answers.length}...`);
+        console.log(`Evaluating answer ${i + 1}/${questions.length}...`);
         const evaluation = await this.evaluate(
           question,
           answer.text,
           resumeData,
         );
-
+        
         evaluations.push({
           questionIndex: i,
           question: question,
           answer: answer.text,
           evaluation: evaluation,
         });
-
-        if (i < answers.length - 1) {
+        
+        if (i < questions.length - 1) {
           await new Promise((resolve) => setTimeout(resolve, 500));
         }
       } catch (err) {
@@ -152,10 +152,11 @@ class AnswerEvaluator {
       }
     }
     console.log(`✅ Successfully evaluated ${evaluations.length} answers`);
-
+    
     const overallScore = this.calculateOverallScore(evaluations);
+    const dimensionAverages = this.getDimensionAverages(evaluations);
 
-    return { evaluations, overallScore };
+    return { evaluations, overallScore, dimensionAverages };
   }
 
   /**
@@ -166,7 +167,7 @@ class AnswerEvaluator {
   calculateOverallScore(evaluations) {
     if (evaluations.length === 0) return 0;
 
-    const total = evaluation.reduce(
+    const total = evaluations.reduce(
       (sum, e) => sum + (e.evaluation?.scores?.overall || 0),
       0,
     );
@@ -179,7 +180,7 @@ class AnswerEvaluator {
    * @param {Array} evaluations - Array of evaluation objects
    * @returns {Object} - Average scores per dimension
    */
-  getDimensionsAverages(evaluations) {
+  getDimensionAverages(evaluations) {
     if (evaluations.length === 0) {
       return {
         clarity: 0,
@@ -198,6 +199,8 @@ class AnswerEvaluator {
         scores.reduce((a, b) => a + b, 0) / scores.length,
       );
     });
+
+    return averages;
   }
 }
 

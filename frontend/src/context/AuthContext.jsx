@@ -1,26 +1,27 @@
 import { supabase } from "../lib/supabase";
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useRef } from 'react'
 
-//stores the authentication information globally
 const AuthContext = createContext({})
 
-//access authContext from anywhere in react componant tree
 export const useAuth = ()=> useContext(AuthContext)
 
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    // Tracks whether auth has been resolved at least once.
+    // Prevents the loading spinner from re-appearing on every token refresh or sign-out.
+    const initialized = useRef(false)
 
     useEffect(()=> {
-        //check active session (if I am already logged in or not)
-        supabase.auth.getSession().then(({data: {session}}) => {
-            setUser(session?.user ?? null)
-            setLoading(false)
-        })
-
-        //Listen for auth changes (keep track of my log in log out)
+        // onAuthStateChange fires immediately with INITIAL_SESSION on mount,
+        // giving us the cached session without a separate getSession() call.
+        // This is the Supabase-recommended single-source-of-truth pattern.
         const {data: {subscription}} = supabase.auth.onAuthStateChange((_event, session)=> {
             setUser(session?.user ?? null)
+            if (!initialized.current) {
+                setLoading(false)
+                initialized.current = true
+            }
         })
         return ()=> subscription.unsubscribe();
     }, []);
