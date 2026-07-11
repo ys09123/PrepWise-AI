@@ -9,14 +9,14 @@ const Results = () => {
 
   if (!results) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
-          <p className="text-red-600 mb-4">No results found</p>
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="text-center py-16">
+          <p className="text-sm text-[#DC2626] mb-4">No results found</p>
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-6 py-2 bg-[#84a98c] text-white rounded-md hover:bg-[#6b8e73]"
+            className="px-4 py-2 bg-[#18181B] text-white text-sm font-medium rounded-md hover:bg-[#27272A] transition-colors"
           >
-            Back to Dashboard
+            Back to dashboard
           </button>
         </div>
       </div>
@@ -32,127 +32,94 @@ const Results = () => {
     confidence: 0,
   };
   const evaluations = results.evaluations || [];
-  const totalQuestions = results.totalQuestions || 0;
-  const answeredQuestions = results.answeredQuestions || evaluations.length;
-
-  // Score color logic
-  const getScoreColor = (score) => {
-    if (score >= 80) return "text-green-600";
-    if (score >= 60) return "text-yellow-600";
-    return "text-red-600";
-  };
-
-  const getScoreBg = (score) => {
-    if (score >= 80) return "bg-green-100";
-    if (score >= 60) return "bg-yellow-100";
-    return "bg-red-100";
-  };
-
-  const getPerformanceLabel = (score) => {
-    if (score >= 90) return "Excellent";
-    if (score >= 75) return "Good";
-    if (score >= 60) return "Fair";
-    return "Needs Improvement";
-  };
 
   const dimensionLabels = {
     clarity: "Clarity",
-    technicalDepth: "Technical Depth",
+    technicalDepth: "Technical depth",
     relevance: "Relevance",
     confidence: "Confidence",
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-white">
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-xl p-8 mb-6 text-center">
-          <h1 className="text-3xl font-bold text-[#2f3e46] mb-2">
-            Interview Complete! 🎉
-          </h1>
-          <p className="text-gray-500 mb-6">Here's how you performed</p>
-
-          {/* Overall Score Circle */}
-          <div
-            className={`inline-flex items-center justify-center w-40 h-40 rounded-full ${getScoreBg(overallScore)} mb-4`}
-          >
-            <div className="text-center">
-              <p
-                className={`text-6xl font-bold ${getScoreColor(overallScore)}`}
-              >
-                {overallScore}
-              </p>
-              <p className="text-xs text-gray-500">/ 100</p>
-            </div>
+        <div className="mb-12 text-center">
+          <h1 className="text-2xl font-semibold tracking-tight text-[#111111]">Interview complete!</h1>
+          <p className="text-sm text-[#999999] mt-1 mb-8">Here's how you performed</p>
+          
+          <div>
+            <h2 className="text-6xl font-medium tracking-tight text-[#111111] mb-2">{overallScore}</h2>
+            <p className="text-sm text-[#999999]">Overall score</p>
           </div>
-
-          <p
-            className={`text-2xl font-semibold ${getScoreColor(overallScore)} mb-2`}
-          >
-            {getPerformanceLabel(overallScore)}
-          </p>
-          <p className="text-sm text-gray-500">
-            {answeredQuestions} of {totalQuestions} questions answered
-          </p>
         </div>
 
         {/* Dimension Breakdown */}
         {dimensionAverages && Object.keys(dimensionAverages).length > 0 && (
-          <div className="bg-white rounded-lg shadow-xl p-8 mb-6">
-            <h2 className="text-2xl font-bold text-[#2f3e46] mb-6">
-              Score Breakdown
-            </h2>
-            <div className="space-y-5">
+          <div className="mb-12">
+            <h3 className="text-sm font-medium text-[#111111] mb-4">Score breakdown</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {Object.entries(dimensionAverages).map(([key, value]) => (
-                <div key={key}>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-sm font-semibold text-gray-700">
-                      {dimensionLabels[key] || key}
-                    </span>
-                    <span
-                      className={`text-sm font-bold ${getScoreColor(value || 0)}`}
-                    >
-                      {value || 0}/100
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div
-                      className={`h-3 rounded-full transition-all duration-700 ${
-                        (value || 0) >= 80
-                          ? "bg-green-500"
-                          : (value || 0) >= 60
-                            ? "bg-yellow-500"
-                            : "bg-red-500"
-                      }`}
-                      style={{ width: `${value || 0}%` }}
-                    />
-                  </div>
+                <div key={key} className="border border-[#E5E5E5] rounded-md p-4 text-center">
+                  <p className="text-2xl font-medium text-[#111111] mb-1">{value || 0}</p>
+                  <p className="text-xs text-[#999999]">{dimensionLabels[key] || key}</p>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        {/* Detailed Review */}
+        <div className="mb-10">
+          <h3 className="text-sm font-medium text-[#111111] mb-4">Detailed review</h3>
+          <div className="space-y-6">
+            {evaluations.map((item, index) => {
+              const question = item.question || {};
+              const evaluation = item.evaluation || {};
+              const scores = evaluation.scores || {};
+
+              return (
+                <div key={index} className="border border-[#E5E5E5] rounded-lg p-6">
+                  <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Question {index + 1}</p>
+                  <p className="text-base font-medium text-[#111111] mb-6">{question.question}</p>
+
+                  <div className="mb-6">
+                    <p className="text-xs font-medium text-[#111111] mb-2">Your answer</p>
+                    <div className="bg-[#F7F7F7] p-4 rounded-md text-sm text-[#555555]">
+                      {item.answer}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 mb-3">
+                      <span className="text-xs text-[#999999]">Clarity: {scores.clarity || 0}</span>
+                      <span className="text-xs text-[#999999]">Tech depth: {scores.technicalDepth || 0}</span>
+                      <span className="text-xs text-[#999999]">Relevance: {scores.relevance || 0}</span>
+                      <span className="text-xs text-[#999999]">Confidence: {scores.confidence || 0}</span>
+                    </div>
+                    {evaluation.detailedFeedback && (
+                      <div className="bg-[#18181B] text-white p-4 rounded-md text-sm leading-relaxed">
+                        {evaluation.detailedFeedback}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="pt-6 border-t border-[#E5E5E5]">
           <button
             onClick={() => navigate("/dashboard")}
-            className="flex-1 py-3 bg-[#84a98c] text-white rounded-lg font-semibold hover:bg-[#6b8e73]"
+            className="w-full px-4 py-3 bg-[#18181B] text-white text-sm font-medium rounded-md hover:bg-[#27272A] transition-colors active:scale-[0.98]"
           >
-            Back to Dashboard
-          </button>
-
-          <button
-            onClick={() =>
-              navigate("/review", {
-                state: { evaluations },
-              })
-            }
-            className="flex-1 py-3 border-2 border-[#84a98c] text-[#84a98c] rounded-lg font-semibold"
-          >
-            Review Answers
+            Back to dashboard
           </button>
         </div>
+
       </div>
     </div>
   );

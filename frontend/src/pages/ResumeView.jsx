@@ -42,25 +42,22 @@ const ResumeView = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#84a98c] mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading resume...</p>
-        </div>
+      <div className="min-h-screen bg-white flex items-center justify-center py-16">
+        <div className="w-5 h-5 border-2 border-[#E5E5E5] border-t-[#18181B] rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error || !resume) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
-          <p className="text-red-600 mb-4">{error || "Resume not found"}</p>
+      <div className="min-h-screen bg-white flex items-center justify-center p-4">
+        <div className="text-center py-16">
+          <p className="text-sm text-[#DC2626] mb-4">{error || "Resume not found"}</p>
           <button
             onClick={() => navigate("/dashboard")}
-            className="px-6 py-2 bg-[#84a98c] text-white rounded-md hover:bg-[#6b8e73]"
+            className="px-4 py-2 bg-[#18181B] text-white text-sm font-medium rounded-md hover:bg-[#27272A] transition-colors"
           >
-            Back to Dashboard
+            Back to dashboard
           </button>
         </div>
       </div>
@@ -71,159 +68,166 @@ const ResumeView = () => {
   const isProcessing = !getParsedData(resume.parsed_data);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-7xl px-6 mx-auto">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="mt-4 text-[#84a98c] hover:text-[#6b8e73] font-medium"
-        >
-          ← Back to Dashboard
+    <div className="min-h-screen bg-white">
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        
+        <button onClick={() => navigate("/dashboard")} className="flex items-center gap-1.5 text-sm text-[#999999] hover:text-[#111111] transition-colors mb-6">
+          ← Back
         </button>
-        {/* Header */}
-        <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+
+        {/* Header Row */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-[#2f3e46]">
-              {parsedData.name || "Untitled Resume"}
-            </h1>
-            <p className="text-gray-600 text-sm">
-              Filename: {resume.file_name}
-            </p>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl font-semibold tracking-tight text-[#111111]">
+                {parsedData.name || "Untitled Resume"}
+              </h1>
+              {parsedData.seniorityLevel && (
+                <span className="px-2 py-0.5 rounded text-xs font-medium bg-[#F7F7F7] text-[#555555]">
+                  {parsedData.seniorityLevel}
+                </span>
+              )}
+            </div>
+            <p className="text-sm text-[#999999] mt-1">{resume.file_name}</p>
           </div>
 
           <button
-            onClick={() =>
-              navigate("/interview/start", { state: { resumeId: resume.id } })
-            }
+            onClick={() => navigate("/interview/setup", { state: { resumeId: resume.id } })}
             disabled={isProcessing}
-            className={`px-6 py-3 text-white rounded-md font-semibold shadow-md ${
-              isProcessing
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#84a98c] hover:bg-[#6b8e73]"
-            }`}
+            className="px-4 py-2 bg-[#18181B] text-white text-sm font-medium rounded-md hover:bg-[#27272A] transition-colors disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98] w-full sm:w-auto shrink-0"
           >
-            {isProcessing ? "Processing..." : "Start Interview →"}
+            {isProcessing ? "Processing..." : "Start interview →"}
           </button>
         </div>
 
-        {/* Processing Warning */}
         {isProcessing && (
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-            <p className="text-sm text-yellow-700">
-              This resume is still being analyzed by AI. Some data may be
-              missing.
+          <div className="border border-[#E5E5E5] bg-[#F7F7F7] rounded-lg p-4 mb-6">
+            <p className="text-sm text-[#555555]">
+              This resume is still being analyzed by AI. Some data may be missing.
             </p>
           </div>
         )}
 
-        {/* Profile Overview */}
-        <div className="bg-white rounded-lg shadow-xl p-8 mb-6">
-          <h2 className="text-2xl font-bold text-[#2f3e46] mb-6">
-            Profile Overview
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold text-gray-700 mb-2">Contact</h3>
-              <p className="text-sm">
-                <b>Email:</b> {parsedData.email || "N/A"}
-              </p>
-              <p className="text-sm">
-                <b>Phone:</b> {parsedData.phone || "N/A"}
-              </p>
-              <p className="text-sm">
-                <b>Location:</b> {parsedData.location || "N/A"}
-              </p>
-              <p className="text-sm">
-                <b>Experience:</b>{" "}
-                {parsedData.yearsOfExperience
-                  ? `${parsedData.yearsOfExperience} years`
-                  : "N/A"}
-              </p>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-gray-700 mb-2">Summary</h3>
-              <p className="text-sm text-gray-600">
-                {parsedData.summary || "No summary provided"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Skills */}
-        <div className="bg-white rounded-lg shadow-xl p-8 mb-6">
-          <h2 className="text-xl font-bold text-[#2f3e46] mb-4">Skills</h2>
-
-          <div className="flex flex-wrap gap-2">
-            {parsedData.skills?.length > 0 ? (
-              parsedData.skills.map((skill, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 bg-[#84a98c]/10 text-[#2f3e46] rounded-full text-sm font-medium"
-                >
-                  {skill}
-                </span>
-              ))
-            ) : (
-              <p className="text-gray-500 text-sm">No skills detected</p>
-            )}
-          </div>
-        </div>
-
-        {/* Projects */}
-        {parsedData.projects?.length > 0 && (
-          <div className="bg-white rounded-lg shadow-xl p-8 mb-6">
-            <h2 className="text-xl font-bold text-[#2f3e46] mb-4">Projects</h2>
-
-            <div className="space-y-4">
-              {parsedData.projects.map((project, index) => (
-                <div key={index} className="border-l-4 border-[#84a98c] pl-4">
-                  <p className="font-semibold text-[#2f3e46]">{project.name}</p>
-
-                  {project.description && (
-                    <p className="text-sm text-gray-600 mt-1">
-                      {project.description}
-                    </p>
-                  )}
-
-                  {project.technologies?.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {project.technologies.map((tech, i) => (
-                        <span
-                          key={i}
-                          className="px-2 py-1 text-xs bg-gray-100 rounded"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Education */}
-        {parsedData.education?.length > 0 && (
-          <div className="bg-white rounded-lg shadow-xl p-8 mb-6">
-            <h2 className="text-xl font-bold text-[#2f3e46] mb-4">Education</h2>
-
-            {parsedData.education.map((edu, index) => (
-              <div
-                key={index}
-                className="border-l-4 border-[#84a98c] pl-4 mb-3"
-              >
-                <p className="font-semibold">{edu.degree}</p>
-                <p className="text-sm text-gray-600">{edu.institution}</p>
-                {edu.year && (
-                  <p className="text-xs text-gray-500">{edu.year}</p>
-                )}
+        <div className="space-y-6">
+          {/* Contact & Summary */}
+          <div className="grid sm:grid-cols-2 gap-6">
+            <div className="border border-[#E5E5E5] rounded-lg p-6">
+              <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Contact</p>
+              <div className="space-y-2 text-sm text-[#555555]">
+                <div className="flex justify-between"><span className="text-[#999999]">Email</span><span className="text-right">{parsedData.email || "N/A"}</span></div>
+                <div className="flex justify-between"><span className="text-[#999999]">Phone</span><span className="text-right">{parsedData.phone || "N/A"}</span></div>
+                <div className="flex justify-between"><span className="text-[#999999]">Location</span><span className="text-right">{parsedData.location || "N/A"}</span></div>
+                <div className="flex justify-between"><span className="text-[#999999]">Experience</span><span className="text-right">{parsedData.yearsOfExperience ? `${parsedData.yearsOfExperience} years` : "N/A"}</span></div>
               </div>
-            ))}
+            </div>
+
+            <div className="border border-[#E5E5E5] rounded-lg p-6">
+              <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Summary</p>
+              <p className="text-sm text-[#555555] leading-relaxed">
+                {parsedData.summary || "No summary provided."}
+              </p>
+            </div>
           </div>
-        )}
+
+          {/* Skills */}
+          <div className="border border-[#E5E5E5] rounded-lg p-6">
+            <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Skills</p>
+            <div className="flex flex-wrap gap-2">
+              {parsedData.skills?.length > 0 ? (
+                parsedData.skills.map((skill, index) => (
+                  <span key={index} className="px-2.5 py-1 border border-[#E5E5E5] rounded-md text-xs text-[#555555]">
+                    {skill}
+                  </span>
+                ))
+              ) : (
+                <p className="text-sm text-[#999999]">No skills detected.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Work Experience */}
+          {parsedData.experience?.length > 0 && (
+            <div className="border border-[#E5E5E5] rounded-lg p-6">
+              <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Work Experience</p>
+              <div className="space-y-6">
+                {parsedData.experience.map((exp, index) => (
+                  <div key={index} className="border-l-2 border-[#E5E5E5] pl-4">
+                    <h3 className="text-sm font-medium text-[#111111]">{exp.title}</h3>
+                    <p className="text-xs text-[#999999] mt-0.5">{exp.company} • {exp.duration}</p>
+                    {exp.responsibilities?.length > 0 && (
+                      <ul className="mt-2 space-y-1">
+                        {exp.responsibilities.map((resp, i) => (
+                          <li key={i} className="text-sm text-[#555555] leading-relaxed relative pl-3 before:content-['•'] before:absolute before:left-0 before:text-[#999999]">
+                            {resp}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Projects */}
+          {parsedData.projects?.length > 0 && (
+            <div className="border border-[#E5E5E5] rounded-lg p-6">
+              <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Projects</p>
+              <div className="space-y-6">
+                {parsedData.projects.map((project, index) => (
+                  <div key={index} className="border-l-2 border-[#E5E5E5] pl-4">
+                    <h3 className="text-sm font-medium text-[#111111]">{project.name}</h3>
+                    {project.description && (
+                      <p className="text-sm text-[#555555] mt-1 leading-relaxed">{project.description}</p>
+                    )}
+                    {project.technologies?.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {project.technologies.map((tech, i) => (
+                          <span key={i} className="px-2 py-0.5 rounded text-xs font-medium bg-[#FFF7ED] text-[#C2410C]">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Education */}
+          {parsedData.education?.length > 0 && (
+            <div className="border border-[#E5E5E5] rounded-lg p-6">
+              <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Education</p>
+              <div className="space-y-4">
+                {parsedData.education.map((edu, index) => (
+                  <div key={index} className="border-l-2 border-[#E5E5E5] pl-4">
+                    <h3 className="text-sm font-medium text-[#111111]">{edu.degree}</h3>
+                    <p className="text-sm text-[#555555] mt-0.5">{edu.institution}</p>
+                    {edu.year && <p className="text-xs text-[#999999] mt-0.5">{edu.year}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Certifications */}
+          {parsedData.certifications?.length > 0 && (
+            <div className="border border-[#E5E5E5] rounded-lg p-6">
+              <p className="text-xs font-medium uppercase tracking-wide text-[#999999] mb-3">Certifications</p>
+              <div className="space-y-4">
+                {parsedData.certifications.map((cert, index) => (
+                  <div key={index} className="border-l-2 border-[#E5E5E5] pl-4">
+                    <h3 className="text-sm font-medium text-[#111111]">{cert.name}</h3>
+                    <p className="text-sm text-[#555555] mt-0.5">{cert.organization}</p>
+                    {cert.year && <p className="text-xs text-[#999999] mt-0.5">{cert.year}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
       </div>
     </div>
   );

@@ -29,73 +29,65 @@ function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 p-4">
-      <div className='flex flex-col md:flex-row w-full max-w-[800px] shadow-2xl rounded-lg overflow-hidden bg-white'>
-        <div className="w-full md:flex-1 flex flex-col justify-center px-6 py-10 md:px-12">
-          <h2 className="text-4xl md:text-5xl text-[#2f3e46] font-bold mb-6">Register</h2>
-          
-          {error && (
-            <div className="text-red-500 mb-4 text-sm font-medium">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <input
-                type="text"
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-[#84a98c] outline-none transition-all"
-              />
-            </div>
-
-            <div>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-[#84a98c] outline-none transition-all"
-              />
-            </div>
-
-            <div>
-              <input
-                type="password"
-                placeholder="Password (min 6 characters)"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-[#84a98c] outline-none transition-all"
-              />
-            </div>
-
-            <button 
-              type="submit" 
-              disabled={loading}
-              className="w-full p-3 bg-[#84a98c] text-white font-bold rounded hover:bg-[#6b8e73] disabled:bg-[#dad7cd] transition-all shadow-md active:scale-95"
-            >
-              {loading ? 'Creating account...' : 'REGISTER'}
-            </button>
-          </form>
+    <div className="min-h-screen bg-[#F7F7F7] flex items-center justify-center p-4">
+      <div className="w-full max-w-sm bg-white border border-[#E5E5E5] rounded-xl p-8">
+        <div className="mb-8">
+          <h1 className="text-2xl font-semibold tracking-tight text-[#111111]">Create an account</h1>
+          <p className="text-sm text-[#999999] mt-1">Start practicing interviews today</p>
         </div>
 
-        {/* Right Side: Welcome Panel (Full width on mobile, 40% on desktop) */}
-        <div className="w-full md:w-[320px] bg-[#84a98c] flex flex-col justify-center items-center p-10 text-center text-white">
-          <h1 className="text-3xl font-bold mb-4">Hello Friend!</h1>
-          <p className="mb-8 opacity-90 text-sm">Enter your personal details and start your journey with us</p>
-          <Link 
-            to="/login" 
-            className="px-10 py-2 border-2 border-white rounded-full hover:bg-white hover:text-[#84a98c] transition-all font-bold uppercase text-xs tracking-widest"
+        {error && (
+          <p className="text-sm text-[#DC2626] mb-4">{error}</p>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="w-full px-3 py-2 text-sm border border-[#E5E5E5] rounded-md bg-white placeholder:text-[#999999] focus:outline-none focus:border-[#18181B] transition-colors"
+            />
+          </div>
+
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-3 py-2 text-sm border border-[#E5E5E5] rounded-md bg-white placeholder:text-[#999999] focus:outline-none focus:border-[#18181B] transition-colors"
+            />
+          </div>
+
+          <div>
+            <input
+              type="password"
+              placeholder="Password (min 6 characters)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 text-sm border border-[#E5E5E5] rounded-md bg-white placeholder:text-[#999999] focus:outline-none focus:border-[#18181B] transition-colors"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full px-4 py-2 bg-[#18181B] text-white text-sm font-medium rounded-md hover:bg-[#27272A] transition-colors disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]"
           >
-            Login
+            {loading ? 'Creating account...' : 'Create account'}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center">
+          <Link to="/login" className="text-sm text-[#555555] hover:text-[#111111] transition-colors">
+            Already have an account? Sign in →
           </Link>
         </div>
-
       </div>
     </div>
   );

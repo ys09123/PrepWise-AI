@@ -34,12 +34,6 @@ const Interview = () => {
 
   const progress = (currentIndex / totalQuestions) * 100;
 
-  const categoryColors = {
-    technical: "bg-blue-100 text-blue-700",
-    behavioral: "bg-purple-100 text-purple-700",
-    project: "bg-orange-100 text-orange-700",
-  };
-
   const handleSubmit = async () => {
     if (!answer.trim()) {
       setError("Please write your answer before submitting");
@@ -76,61 +70,48 @@ const Interview = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
-      <div className="max-w-3xl mx-auto">
-        {/* Progress Bar */}
-        <div className="mb-6">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-3xl mx-auto px-4 py-10">
+        {/* Progress */}
+        <div className="mb-10">
+          <div className="flex justify-between text-sm mb-2">
+            <span className="font-medium text-[#111111]">
               Question {currentIndex + 1} of {totalQuestions}
             </span>
-            <span>{Math.round(progress)}% complete</span>
+            <span className="text-[#999999]">{Math.round(progress)}% complete</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5">
+          <div className="w-full bg-[#F7F7F7] h-1 rounded-full overflow-hidden">
             <div
-              className="bg-[#84a98c] h-2.5 rounded-full transition-all duration-500"
+              className="bg-[#111111] h-1 rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
         </div>
 
-        {/* Question Card */}
-        <div className="bg-white rounded-lg shadow-xl p-8 mb-6">
-          {/* Category + Difficulty Badges */}
-          <div className="flex items-center gap-3 mb-4">
-            <span
-              className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${
-                categoryColors[currentQuestion?.category] ||
-                "bg-gray-100 text-gray-700"
-              }`}
-            >
+        {/* Question Area */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="border border-[#E5E5E5] px-2 py-0.5 rounded text-[11px] font-medium uppercase tracking-wide text-[#555555]">
               {currentQuestion?.category}
             </span>
-            <span className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-semibold capitalize">
+            <span className="border border-[#E5E5E5] px-2 py-0.5 rounded text-[11px] font-medium uppercase tracking-wide text-[#555555]">
               {currentQuestion?.difficulty}
             </span>
           </div>
 
-          {/* Question Text */}
-          <h2 className="text-xl md:text-2xl font-bold text-[#2f3e46] leading-relaxed">
+          <h2 className="text-2xl font-medium tracking-tight text-[#111111] leading-tight mb-6">
             {currentQuestion?.question}
           </h2>
 
-          {/* Hint for behavioral */}
           {currentQuestion?.category === "behavioral" && (
-            <div className="mt-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
-              <p className="text-xs text-purple-600 font-medium">
-                💡 Tip: Use the STAR method — Situation, Task, Action, Result
-              </p>
+            <div className="border border-[#E5E5E5] bg-[#F7F7F7] text-[#555555] text-sm p-4 rounded-lg">
+              Tip: Use the STAR method (Situation, Task, Action, Result) to structure your response.
             </div>
           )}
         </div>
 
         {/* Answer Area */}
-        <div className="bg-white rounded-lg shadow-xl p-8 mb-6">
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
-            Your Answer
-          </label>
+        <div className="mb-6">
           <textarea
             value={answer}
             onChange={(e) => {
@@ -138,56 +119,34 @@ const Interview = () => {
               setError("");
             }}
             placeholder="Type your answer here. Take your time and think before answering..."
-            rows={8}
-            className="w-full p-4 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#84a98c] focus:border-transparent text-gray-700"
+            className="w-full min-h-[240px] p-4 border border-[#E5E5E5] rounded-lg text-sm text-[#111111] focus:border-[#111111] focus:ring-0 outline-none resize-y transition-colors placeholder:text-[#999999]"
           />
           <div className="flex justify-between items-center mt-2">
-            <p className="text-xs text-gray-500">{answer.length} characters</p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-[#999999]">{answer.length} characters</p>
+            <p className="text-xs text-[#999999]">
               {answer.length < 50 && "Aim for at least 50 characters"}
             </p>
           </div>
         </div>
 
-        {/* Error */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-600 text-sm">{error}</p>
-          </div>
-        )}
+        {error && <p className="text-sm text-[#DC2626] mb-6">{error}</p>}
 
-        {/* Submit Button */}
         <button
           onClick={handleSubmit}
           disabled={submitting || completing || !answer.trim()}
-          className="w-full py-3 bg-[#84a98c] text-white rounded-lg font-semibold hover:bg-[#6b8e73] disabled:bg-gray-300 disabled:cursor-not-allowed transition-all shadow-md active:scale-95"
+          className="w-full px-4 py-3 bg-[#18181B] text-white text-sm font-medium rounded-md hover:bg-[#27272A] transition-colors disabled:opacity-40 disabled:cursor-not-allowed active:scale-[0.98]"
         >
           {completing ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                  fill="none"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              Evaluating your answers with AI...
-            </span>
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-4 h-4 border-2 border-[#E5E5E5] border-t-[#18181B] rounded-full animate-spin" />
+              <span>Evaluating your answers with AI...</span>
+            </div>
           ) : submitting ? (
             "Submitting..."
           ) : currentIndex === totalQuestions - 1 ? (
-            "Submit Final Answer & Get Results →"
+            "Submit final answer & get results →"
           ) : (
-            "Submit Answer → Next Question"
+            "Submit answer →"
           )}
         </button>
       </div>
