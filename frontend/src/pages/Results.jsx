@@ -5,8 +5,7 @@ const Results = () => {
   const location = useLocation();
   const results = location.state?.results;
 
-  // Debug: log the actual structure
-  console.log("Results data:", results);
+
 
   if (!results) {
     return (

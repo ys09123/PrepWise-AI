@@ -4,10 +4,10 @@ class GeminiService {
   constructor() {
     this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     this.model = this.genAI.getGenerativeModel({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 4096,
+        maxOutputTokens: 8192,
         responseMimeType: "application/json",
       },
     });
@@ -51,7 +51,9 @@ class GeminiService {
       if (jsonMatch) {
         text = jsonMatch[0];
       }
-      console.log("RAW GEMINI RESPONSE:\n", text);
+      if (process.env.NODE_ENV === 'development') {
+        console.log("RAW GEMINI RESPONSE:\n", text);
+      }
       if (!text.endsWith("}") && !text.endsWith("]")) {
         throw new Error("AI response appears truncated");
       }

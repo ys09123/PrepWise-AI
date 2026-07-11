@@ -130,9 +130,9 @@ const Dashboard = () => {
                               {skill}
                             </span>
                           ))}
-                        {resume.parsed_data.skills?.length > 3 && (
+                        {resume.parsed_data?.skills?.length > 3 && (
                           <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
-                            +{resume.parsed_data.skills.length - 3} more
+                            +{resume.parsed_data?.skills?.length - 3} more
                           </span>
                         )}
                       </div>

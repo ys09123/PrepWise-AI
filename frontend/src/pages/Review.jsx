@@ -17,13 +17,20 @@ const Review = () => {
 
   if (!evaluations.length) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <button
-          onClick={() => navigate("/dashboard")}
-          className="px-6 py-2 bg-[#84a98c] text-white rounded"
-        >
-          Back
-        </button>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
+          <p className="text-4xl mb-4">📭</p>
+          <h2 className="text-xl font-bold text-[#2f3e46] mb-2">No Reviews Available</h2>
+          <p className="text-gray-500 text-sm mb-6">
+            There are no evaluated answers to review. Complete an interview first to see your detailed feedback here.
+          </p>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="px-6 py-2 bg-[#84a98c] text-white rounded-md hover:bg-[#6b8e73] transition-all font-semibold"
+          >
+            Back to Dashboard
+          </button>
+        </div>
       </div>
     );
   }

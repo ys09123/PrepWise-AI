@@ -156,7 +156,7 @@ router.post("/:sessionId/answer", authenticateUser, async (req, res) => {
       });
     }
 
-    if (session.status != "in_progress") {
+    if (session.status !== "in_progress") {
       return res.status(400).json({
         error: "Interview is not in progress",
       });
@@ -171,7 +171,7 @@ router.post("/:sessionId/answer", authenticateUser, async (req, res) => {
     const nextIndex = questionIndex + 1;
     const isLastQuestion = nextIndex >= session.questions.length;
 
-    const { erro: updateError } = await supabase
+    const { error: updateError } = await supabase
       .from("interview_sessions")
       .update({
         answers: answers,
@@ -242,13 +242,11 @@ router.post("/:sessionId/complete", authenticateUser, async (req, res) => {
       `Evaluating ${session.answers?.length || 0} answers with AI...`,
     );
 
-    const { evaluations, overallScore } = await answerEvaluator.evaluateAll(
+    const { evaluations, overallScore, dimensionAverages } = await answerEvaluator.evaluateAll(
       session.questions,
       session.answers,
       parsedData,
     );
-
-    const dimesionAverages = answerEvaluator.getDimensionsAverages(evaluations);
 
     console.log("Evaluation complete. Overall score: ", overallScore);
 
@@ -258,7 +256,7 @@ router.post("/:sessionId/complete", authenticateUser, async (req, res) => {
         status: "completed",
         scores: {
           overall: overallScore,
-          dimesions: dimesionAverages,
+          dimensions: dimensionAverages,
           evaluations: evaluations,
         },
         completed_at: new Date().toISOString(),
@@ -272,7 +270,7 @@ router.post("/:sessionId/complete", authenticateUser, async (req, res) => {
       results: {
         sessionId: sessionId,
         overallScore: overallScore,
-        dimesionAverages: dimesionAverages,
+        dimensionAverages: dimensionAverages,
         totalQuestions: session.questions.length,
         answeredQuestions: evaluations.length,
         evaluations: evaluations,

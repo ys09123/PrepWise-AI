@@ -119,9 +119,9 @@ class AnswerEvaluator {
   async evaluateAll(questions, answers, resumeData) {
     const evaluations = [];
     
-    console.log(`Starting evaluation of ${answers.length} answers...`);
+    console.log(`Starting evaluation of ${questions.length} questions...`);
     
-    for (let i = 0; i < answers.length; i++) {
+    for (let i = 0; i < questions.length; i++) {
       const question = questions[i];
       const answer = answers[i];
       
@@ -130,7 +130,7 @@ class AnswerEvaluator {
         continue;
       }
       try {
-        console.log(`Evaluating answer ${i + 1}/${answers.length}...`);
+        console.log(`Evaluating answer ${i + 1}/${questions.length}...`);
         const evaluation = await this.evaluate(
           question,
           answer.text,
@@ -144,7 +144,7 @@ class AnswerEvaluator {
           evaluation: evaluation,
         });
         
-        if (i < answers.length - 1) {
+        if (i < questions.length - 1) {
           await new Promise((resolve) => setTimeout(resolve, 500));
         }
       } catch (err) {

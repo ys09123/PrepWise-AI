@@ -16,12 +16,15 @@ function Register() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const { error } = await signUp(email, password, name);
-    if (error) {
-      setError(error.message);
+    try {
+      const { error } = await signUp(email, password, name);
+      if (error) {
+        setError(error.message);
+      } else {
+        navigate('/dashboard');
+      }
+    } finally {
       setLoading(false);
-    } else {
-      navigate('/dashboard');
     }
   };
 

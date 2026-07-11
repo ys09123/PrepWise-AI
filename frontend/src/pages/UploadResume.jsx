@@ -97,7 +97,7 @@ const UploadResume = () => {
           <div
             className={`border-2 border-dashed rounded-lg p-12 text-center transition-all ${
               dragActive
-                ? "border-[#84a98c]/5"
+                ? "border-[#84a98c] bg-[#84a98c]/5"
                 : "border-gray-300 hover:border-[#84a98c]"
             }`}
             onDragEnter={handleDrag}
